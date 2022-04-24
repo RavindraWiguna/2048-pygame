@@ -202,6 +202,20 @@ class Game:
                     elif(self.Matrix[cur_id] == self.Matrix[cur_id+4]):
                         maybeGameOver=False
                         break
+        # check last row
+        row = 3
+        for col in range(3):
+            cur_id = row * 4 + col
+            if(self.Matrix[cur_id] == self.Matrix[cur_id+1]):
+                maybeGameOver = False
+                break
+        # check last col
+        col = 3
+        for row in range(3):
+            cur_id = row * 4 + col
+            if(self.Matrix[cur_id] == self.Matrix[cur_id+4]):
+                maybeGameOver = False
+                break
         return maybeGameOver
 
     def loop(self):
@@ -272,4 +286,5 @@ if __name__=="__main__":
         pygame.display.update()
 
     
+    input("hold")
     pygame.quit()
