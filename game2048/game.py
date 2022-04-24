@@ -35,6 +35,7 @@ class Game:
         self.last_move = None                   # also for human player to check if we release the last button
         self.empty_tile = []                    # store all 0 in the matrix to spawn random '2' or '4'
         self.done_move =False                   # safe guard so that we didn't spawn before moving
+        self.redraw = True
         self.score = 0
 
     def up(self):
@@ -157,6 +158,7 @@ class Game:
             self.done_move= False
         else:
             self.done_move = True
+            self.redraw = True
 
 
 
@@ -173,8 +175,11 @@ class Game:
         
     def draw(self):
         # Fill the background color
-        self.window.fill(BG)
-        self.draw_board()
+        if(self.redraw):
+            print("redraw")
+            self.window.fill(BG)
+            self.draw_board()
+            self.redraw = False
         # pygame.display.update()         # Update the frame showed
 
     def get_empty_tile(self):
@@ -234,6 +239,7 @@ class Game:
                 r_id = choice(self.empty_tile)
                 self.Matrix[r_id] = choice((2, 2, 2, 2, 2, 4, 2, 2, 2, 2))
                 self.done_move = False
+                self.redraw = True
         
         game_info = GameInformation(self.Matrix, gameOver, self.score)
         return game_info
@@ -286,5 +292,5 @@ if __name__=="__main__":
         pygame.display.update()
 
     
-    input("hold")
+    input("type anything to quit")
     pygame.quit()
