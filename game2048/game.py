@@ -2,7 +2,7 @@ from collections import Counter
 from copy import deepcopy
 import numpy as np
 import pygame
-from colorData import WHITE, GRAY
+from colorData import *
 from random import choice
 from math import sqrt
 #=========================================SETUP PHASE=====================
@@ -19,6 +19,7 @@ class GameInformation:
 class Game:
     # Game setup
     SCORE_FONT = pygame.font.SysFont('comicsans', 50)
+    GAME_COL = COLORS
     
     def __init__(self, window, window_width, window_height) -> None:
         self.window = window
@@ -162,13 +163,17 @@ class Game:
     def draw_board(self):
         for i in range(4):
             for j in range(4):
-                value_text = self.SCORE_FONT.render(f'{self.Matrix[i*4 + j]}', 1, WHITE)
+                cur_id = i*4 + j
+                value_int = self.Matrix[cur_id]
+                value_text = self.SCORE_FONT.render(f'{value_int}', 1, BLACK)
+                pygame.draw.rect(self.window, self.GAME_COL[value_int], (self.unit_w*j, self.unit_h*i, self.unit_w, self.unit_h))
                 self.window.blit(value_text, (self.unit_w*j + self.unit_w//2 - value_text.get_width()//2, self.unit_h*i + self.unit_h//2 - value_text.get_height()//2))
+                
                 # self.window.blit(left_score_text,(self.window_width//4 - left_score_text.get_width()//2, 20))
         
     def draw(self):
         # Fill the background color
-        self.window.fill(GRAY)
+        self.window.fill(BG)
         self.draw_board()
         # pygame.display.update()         # Update the frame showed
 
@@ -198,11 +203,6 @@ class Game:
                         maybeGameOver=False
                         break
         return maybeGameOver
-
-
-
-        
-
 
     def loop(self):
         """
@@ -267,7 +267,7 @@ if __name__=="__main__":
                 the_game.is_pressed = False
         
         game_info = the_game.loop()
-        isRunning = not game_info.isGameOver
+        isRunning = isRunning and not game_info.isGameOver
         the_game.draw()
         pygame.display.update()
 
