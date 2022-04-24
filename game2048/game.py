@@ -2,7 +2,7 @@ from collections import Counter
 from copy import deepcopy
 import numpy as np
 import pygame
-from colorData import *
+from .colorData import *
 from random import choice
 from math import sqrt
 #=========================================SETUP PHASE=====================
@@ -156,9 +156,11 @@ class Game:
         
         if(self.Matrix == last_state):
             self.done_move= False
+            return 1 # for training NN, false move is punished
         else:
             self.done_move = True
             self.redraw = True
+            return 0 # correct so dont punish
 
 
 
@@ -176,7 +178,7 @@ class Game:
     def draw(self):
         # Fill the background color
         if(self.redraw):
-            print("redraw")
+            # print("redraw")
             self.window.fill(BG)
             self.draw_board()
             self.redraw = False
@@ -234,7 +236,7 @@ class Game:
         # if a move has been done then we spawn
         if(self.done_move):
             if(self.empty_tile):
-                print("spawn")
+                # print("spawn")
                 # spawn random tile
                 r_id = choice(self.empty_tile)
                 self.Matrix[r_id] = choice((2, 2, 2, 2, 2, 4, 2, 2, 2, 2))
