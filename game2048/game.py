@@ -2,7 +2,10 @@ from collections import Counter
 from copy import deepcopy
 import numpy as np
 import pygame
-from .colorData import *
+try:
+    from .colorData import *
+except ImportError:
+    from colorData import *
 from random import choice
 from math import sqrt
 #=========================================SETUP PHASE=====================
@@ -10,10 +13,11 @@ from math import sqrt
 pygame.init()
 
 class GameInformation:
-    def __init__(self, matrix, isGameOver, score):
+    def __init__(self, matrix, isGameOver, score, total_empty):
         self.Matrix = matrix
         self.isGameOver = isGameOver
         self.score = score
+        self.total_empty = total_empty
         
 
 class Game:
@@ -243,7 +247,7 @@ class Game:
                 self.done_move = False
                 self.redraw = True
         
-        game_info = GameInformation(self.Matrix, gameOver, self.score)
+        game_info = GameInformation(self.Matrix, gameOver, self.score, len(self.empty_tile))
         return game_info
 
     def reset(self):
