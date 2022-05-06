@@ -6,7 +6,7 @@ try:
     from .colorData import *
 except ImportError:
     from colorData import *
-from random import choice
+from random import choice, randint
 from math import sqrt
 #=========================================SETUP PHASE=====================
 # Initialize pygame
@@ -33,8 +33,16 @@ class Game:
         self.unit_h = self.window_height//4
         self.Matrix = [0, 0, 0, 0, 
                        0, 0, 0, 0,
-                       2, 0, 0, 0,
-                       2, 0, 0, 0]
+                       0, 0, 0, 0,
+                       0, 0, 0, 0]
+        # choose 2 random tile as starting 2
+        id1 = randint(0, 15)
+        id2 = id1
+        while(id2 ==id1):
+            id2 = randint(0, 15)
+        self.Matrix[id1] = 2
+        self.Matrix[id2] = 2
+        
         self.is_pressed = False                 # For human player, so that it only move after not is pressed
         self.last_move = None                   # also for human player to check if we release the last button
         self.empty_tile = []                    # store all 0 in the matrix to spawn random '2' or '4'
